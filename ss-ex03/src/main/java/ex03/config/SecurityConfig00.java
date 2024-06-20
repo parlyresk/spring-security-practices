@@ -1,5 +1,9 @@
 package ex03.config;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDecisionManager;
@@ -27,21 +31,31 @@ import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.access.intercept.DefaultFilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-import org.springframework.security.web.authentication.*;
-import org.springframework.security.web.authentication.logout.*;
-import org.springframework.security.web.context.*;
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
+import org.springframework.security.web.context.DelegatingSecurityContextRepository;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextHolderFilter;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
-
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
 
 @Configuration
 public class SecurityConfig00 {
     @Bean
     public FilterChainProxy springSecurityFilterChain() {
-        List<SecurityFilterChain> SecurityFilterChains = Arrays.asList(
+        List<SecurityFilterChain> securityFilterChains = Arrays.asList(
                 new DefaultSecurityFilterChain(new AntPathRequestMatcher("/favicon.ico")),
                 new DefaultSecurityFilterChain(new AntPathRequestMatcher("/assets/**")),
                 new DefaultSecurityFilterChain(new AntPathRequestMatcher("/**"),
@@ -54,7 +68,7 @@ public class SecurityConfig00 {
                 )
         );
 
-        return new FilterChainProxy(SecurityFilterChains);
+        return new FilterChainProxy(securityFilterChains);
     }
 
 
