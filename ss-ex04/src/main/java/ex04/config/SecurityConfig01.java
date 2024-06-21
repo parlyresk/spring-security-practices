@@ -12,6 +12,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig01 {
+	@Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return new WebSecurityCustomizer() {
             @Override
@@ -25,6 +26,10 @@ public class SecurityConfig01 {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    	// UsernamePasswordAuthenticationFilter
+    	// DefaultLoginPageGeneratingFilter
+    	// DefaultLogoutPageGeneratingFilter 가 만들어짐
+    	http.formLogin();
         return http.build();
     }
 }

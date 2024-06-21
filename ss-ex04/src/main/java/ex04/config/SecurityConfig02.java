@@ -12,6 +12,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig02 {
+	
+	@Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return new WebSecurityCustomizer() {
             @Override
@@ -25,6 +27,10 @@ public class SecurityConfig02 {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    	// httpBasic
+    	// 10th BasicAuthenticationFilter 을 만듬
+    	
+    	http.formLogin().and().httpBasic();
         return http.build();
     }
 }
